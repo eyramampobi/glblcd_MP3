@@ -1,55 +1,56 @@
-while True:
-    saved_songs = []
-    file = "playlist1.txt"
-
-    with open("playlist1.txt", 'r') as f:
-        contents = f.read()
-
-    print(
-        "What would you like to do? \n 1. Load a playlist \n 2. Display all songs in a playlist \n 3. Add songs to a playlist \n 4. Remove songs from a playlist")
-    request = int(input("Enter the either the number corresponding to your response: "))
+class Playlist:
+    import random
 
 
-    def load_songs():
-        global contents
+    def __init__(self, ):
+        self.loaded_songs = []
+
+    def load_songs(self, file):
+        with open(file, "r") as f:
+            contents = f.readlines()
+            self.loaded_songs = [line.strip() for line in contents]
+            print("All done!")
+
+    def display_songs(self):
+        for song in self.loaded_songs:
+            print(song)
+
+    def add_songs(self, new_song):
+        self.loaded_songs.append(new_song)
+        with open("playlist1.txt", "a") as f:
+            f.write(new_song + "\n")
+        print("Song added successfully!")
+
+    def remove_songs(self, song_to_remove):
+        self.loaded_songs.remove(song_to_remove)
+
+    def shuffle_playlist(self):
+        random.shuffle(self.loaded_songs)
 
 
-    def display_songs():
-        print(contents)
+my_playlist = Playlist()
+print(
+    "What would you like to do? \n 0. Exit the system \n 1. Load a playlist \n 2. Display all songs in a playlist "
+    "\n 3. Add songs to a playlist \n 4. Remove songs from a playlist \n 5. Shuffle playlist \n "
+    "6. Count the songs in playlist \n 7. Clear playlist \n 8. Check if playlist is empty")
 
+close = False
 
-    def add_songs():
-        new_song = input("The title of the song: ")
-        with open("playlist1.txt", 'a') as w:
-            w.write("\n" + new_song)
-        print("Song has been added successfully!")
+while not close:
 
+    option = int(input("Enter the number corresponding to your response: "))
 
-    def remove_songs():
-        global contents
-        with open("playlist1.txt", 'r') as f:
-            line = f.readline()
-        num = int(input("How many songs are you removing: "))
-        for x in range(num):
-            delete = input("Song title: ")
-            contents = contents.replace(delete,"")`
-        with open(file, 'w') as t:
-            t.write(contents)
-        print("Track deleted")
-        # for index in saved_songs:
-        #     with open(file, 'a') as w:
-        #         w.write('\n' + index)
+    if option == 0:
+        print("exiting the system")
+        close = True
+    elif option == 1:
+        my_playlist.load_songs("playlist1.txt")
+    elif option == 2:
+        my_playlist.display_songs()
+    elif option == 3:
+        new_song = input("Add new song: ")
+        my_playlist.add_songs(new_song)
+    elif option == 4:
+        song_to_remove = input("Enter song to remove: ")
+        my_playlist.remove_songs(song_to_remove)
 
-
-    #      with open("playlist1.txt", 'a') as d:
-
-    remove_songs()
-    print(contents)
-    # if request == 1:
-    #     load_songs()
-    # if request == 2:
-    #     display_songs()
-    # if request == 3:
-    #     add_songs()
-    # if request == 4:
-    #     remove_songs()
